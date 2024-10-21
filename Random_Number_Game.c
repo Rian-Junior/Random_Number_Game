@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-int main() {
+int main()
+{
     printf(" ______     ______        _____  \n");
     printf("/ ___  \\   / ___  \\      / ___ \\ \n");
     printf("\\/   \\  \\  \\/   )  )    ( (   ) )\n");
@@ -12,10 +13,10 @@ int main() {
     printf("/\\___/  /   /  /            (_)  \n");
     printf("\\______/    \\_/              _   \n");
     printf("                            (_)   \n");
-    
+
     printf("          By: Tryplex             \n\n");
 
-    // Variáveis globais
+    // Global variables
     int segundos = time(0);
     srand(segundos);
 
@@ -30,84 +31,105 @@ int main() {
     int nivel = 0;
     int numerodetentativas;
 
-    // Mensagem de boas-vindas e status do jogo
-    printf("Bem-vindo ao nosso jogo de adivinhação!\n");
-    printf("Seu objetivo é adivinhar o número secreto. Boa sorte!\n\n");
-    printf("\nConforme a cada nível aumenta +5 chances para acertar!\n\n");
+    // Welcome message and game status
+    printf("Welcome to our guessing game!\n");
+    printf("Your goal is to guess the secret number. Good luck!\n\n");
+    printf("With each level, you get +5 more chances to guess!\n\n");
 
-    // Validação do nível de dificuldade
+    // Difficulty level validation
     char entrada[100];
     char *p;
 
-    while (1) {
-        printf("Qual o nível de dificuldade?\n\n");
-        printf("[1] Fácil [2] Médio [3] Difícil\n\n");
-        
-        printf("Nível escolhido foi: ");
-        fgets(entrada, sizeof(entrada), stdin); // Captura a entrada como string
+    while (1)
+    {
+        printf("What is the difficulty level?\n\n");
+        printf("[1] Easy [2] Medium [3] Hard\n\n");
 
-        nivel = strtol(entrada, &p, 10); // Tenta converter a string para um número
+        printf("Chosen level is: ");
+        fgets(entrada, sizeof(entrada), stdin); // Captures the input as a string
 
-        // Verifica se a conversão foi bem-sucedida
-        if (p == entrada || *p != '\n') {
-            printf("Entrada inválida! Tente novamente.\n");
-        } else {
+        nivel = strtol(entrada, &p, 10); // Tries to convert the string to a number
+
+        // Checks if the conversion was successful
+        if (p == entrada || *p != '\n')
+        {
+            printf("\nInvalid input! Try again.\n\n");
+        }
+        else
+        {
             break;
         }
     }
 
-    // Definindo o número de tentativas com base no nível escolhido
-    switch (nivel) {
-        case 1:
-            numerodetentativas = 15;
-            break;
-        case 2:
-            numerodetentativas = 10;
-            break;
-        case 3:
-            numerodetentativas = 5;
-            break;
-        default:
-            printf("Nível inválido! Usando nível Fácil como padrão.\n");
-            numerodetentativas = 15;
-            break;
+    // Defining the number of attempts based on the chosen level
+    switch (nivel)
+    {
+    case 1:
+        numerodetentativas = 15;
+        break;
+    case 2:
+        numerodetentativas = 10;
+        break;
+    case 3:
+        numerodetentativas = 5;
+        break;
+    default:
+        printf("Invalid level! Using Easy level as default.\n");
+        numerodetentativas = 15;
+        break;
     }
 
-    // Loop principal do jogo
-    for (int i = 1; i <= numerodetentativas; i++) {
-        printf("Tentativa %d\n", tentativas);
+    // Main game loop
+    for (int i = 1; i <= numerodetentativas; i++)
+    {
+        printf("Attempt %d\n", tentativas);
 
-        // Entrada do jogador
-        while (1) {
-            printf("Digite seu chute: ");
+        // Player input
+        while (1)
+        {
+            printf("Enter your guess: ");
             fgets(entrada, sizeof(entrada), stdin);
-            
-            chute = strtol(entrada, &p, 10); 
 
-            // Verifica se a conversão foi bem-sucedida
-            if (p == entrada || *p != '\n') {
-                printf("Entrada inválida! Tente novamente.\n");
-            } else if (chute < 0) {
-                printf("Você não pode chutar números negativos! Tente novamente.\n\n");
-            } else {
-                break; 
+            chute = strtol(entrada, &p, 10);
+
+            // Checks if the conversion was successful
+            if (p == entrada || *p != '\n')
+            {
+                printf("Invalid input! Try again.\n");
+            }
+            else if (chute < 0)
+            {
+                printf("You cannot guess negative numbers! Try again.\n\n");
+            }
+            else
+            {
+                break;
             }
         }
 
-        printf("Seu chute foi: %d\n", chute);
+        printf("Your guess was: %d\n", chute);
 
-        // Verifica se acertou, se o chute é maior ou menor
+        // Checks if the player guessed correctly, or if the guess is higher or lower
         acertou = (chute == numerosecreto);
         int maior = chute > numerosecreto;
 
-        if (acertou) {
-            printf("\nParabéns! Você acertou o número secreto!\n");
-            printf("Você venceu o jogo!\n");
-            break;  // Sai do loop se acertou
-        } else if (maior) {
-            printf("\nSeu chute foi maior que o número secreto!\n\n");
-        } else {
-            printf("\nSeu chute foi menor que o número secreto!\n\n");
+        if (acertou)
+        {
+            printf("\nCongratulations! You guessed the secret number!\n");
+            printf("You won the game!\n");
+            break;
+        }
+        else
+        {
+            printf("You lost! Try again!\n");
+        }
+        if (maior)
+        {
+            printf("\nYour guess was higher than the secret number!\n\n");
+        }
+        else
+        {
+            printf("\nYour guess was lower than the secret number!\n\n");
         }
         tentativas++;
 
@@ -115,15 +137,7 @@ int main() {
         pontos -= pontosperdidos;
     }
 
-    printf("Fim de jogo!\n");
-
-    if (acertou) {
-        printf("Você ganhou!\n");
-        printf("Você acertou em %d tentativas.\n", tentativas - 1);
-        printf("Total de pontos: %.1f\n", pontos);
-    } else {
-        printf("Você perdeu! Tente novamente!\n");
-    }
+    printf("Game over!\n");
 
     return 0;
 }
